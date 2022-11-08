@@ -49,8 +49,7 @@ class LoggerWithLocalAdapterTest extends TestCase {
 		self::$adapter = new FileAdapter(self::$path);
 		self::$adapter->setLevel(LogLevel::INFO);
 		# Create logger
-		self::$logger = new Logger();
-		self::$logger->attach(self::$adapter);
+		self::$logger = new Logger(self::$adapter);
 	}
 
 	protected static function truncateLog() {
