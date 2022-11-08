@@ -44,6 +44,14 @@ class Logger extends AbstractLogger {
 	protected $adapters = [];
 
 	/**
+	 * Constructor
+	 * @param AdapterInterface $adapter AdapterInterface instance
+	 */
+	public function __construct(AdapterInterface$adapter) {
+		$this->adapters[] = $adapter;
+	}
+
+	/**
 	 * Add a new Adapter
 	 * @param  AdapterInterface $adapter Adapter instance
 	 * @return $this
