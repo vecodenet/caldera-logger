@@ -43,6 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface {
 	 * Logs with an arbitrary level
 	 * @param  mixed  $level   Log level
 	 * @param  string $message Message to log
+	 * @param  array  $context Additional context data
 	 */
-	abstract public function log($level, string $message): void;
+	abstract public function log($level, string $message, array $context = []): void;
 }

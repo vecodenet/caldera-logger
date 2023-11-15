@@ -17,6 +17,7 @@ interface AdapterInterface {
 	 * Logs with an arbitrary level
 	 * @param  mixed  $level   Log level
 	 * @param  string $message Message to log
+	 * @param  array  $context Additional context data
 	 */
-	function log($level, string $message): void;
+	function log($level, string $message, array $context = []): void;
 }
