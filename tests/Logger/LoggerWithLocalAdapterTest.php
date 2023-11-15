@@ -112,7 +112,7 @@ class LoggerWithLocalAdapterTest extends TestCase {
 		if ($stream) {
 			$line = fgets($stream);
 			fclose($stream);
-			$this->assertMatchesRegularExpression('/\[\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}\] NOTICE: An unknown error ocurred, server time: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}/', $line);
+			$this->assertMatchesRegularExpression('/\[\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}\] NOTICE: An unknown error ocurred, server time: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\+|-)?\d{2}:\d{2}/', $line);
 		} else {
 			$this->fail('Failed to open log file');
 		}
