@@ -19,21 +19,18 @@ class FileAdapter extends AbstractAdapter {
 
 	/**
 	 * Path to the log file
-	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 * Timestamp format
-	 * @var string
 	 */
-	protected $timestamp = 'Y-m-d H:i:s';
+	protected string $timestamp = 'Y-m-d H:i:s';
 
 	/**
 	 * Log format
-	 * @var string
 	 */
-	protected $format = '[%1$s] %2$s: %3$s';
+	protected string $format = '[%1$s] %2$s: %3$s';
 
 	/**
 	 * Constructor
@@ -67,7 +64,6 @@ class FileAdapter extends AbstractAdapter {
 
 	/**
 	 * Get the timestamp format
-	 * @return string
 	 */
 	public function getTimestamp(): string {
 		return $this->timestamp;
@@ -75,7 +71,6 @@ class FileAdapter extends AbstractAdapter {
 
 	/**
 	 * Get the log format
-	 * @return string
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -85,8 +80,9 @@ class FileAdapter extends AbstractAdapter {
 	 * Logs with an arbitrary level
 	 * @param  mixed  $level   Log level
 	 * @param  string $message Message to log
+	 * @param  array  $context Additional context data
 	 */
-	public function log($level, string $message): void {
+	public function log($level, string $message, array $context = []): void {
 		$timestamp = date($this->timestamp);
 		$format = $this->format ?: $this->format;
 		$output = sprintf($format, $timestamp, strtoupper($level), $message);

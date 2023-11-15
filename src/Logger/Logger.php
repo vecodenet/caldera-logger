@@ -24,9 +24,8 @@ class Logger extends AbstractLogger {
 
 	/**
 	 * Array to map log levels to integers
-	 * @var array
 	 */
-	static $levels = [
+	static array $levels = [
 		'emergency' => 600,
 		'alert'     => 550,
 		'critical'  => 500,
@@ -39,16 +38,22 @@ class Logger extends AbstractLogger {
 
 	/**
 	 * Adapters array
-	 * @var array
 	 */
-	protected $adapters = [];
+	protected array $adapters = [];
+
+	/**
+	 * Interpolation flag
+	 */
+	protected bool $interpolate;
 
 	/**
 	 * Constructor
-	 * @param AdapterInterface $adapter AdapterInterface instance
+	 * @param AdapterInterface $adapter     AdapterInterface instance
+	 * @param bool             $interpolate Interpolation flag
 	 */
-	public function __construct(AdapterInterface$adapter) {
-		$this->adapters[] = $adapter;
+	public function __construct(AdapterInterface $adapter, bool $interpolate = true) {
+		$this->attach($adapter);
+		$this->interpolate = $interpolate;
 	}
 
 	/**
@@ -62,6 +67,16 @@ class Logger extends AbstractLogger {
 	}
 
 	/**
+	 * Set interpolation flag
+	 * @param  bool   $interpolate Interpolation flag
+	 * @return $this
+	 */
+	public function autoInterpolate(bool $interpolate) {
+		$this->interpolate = $interpolate;
+		return $this;
+	}
+
+	/**
 	 * Logs with an arbitrary level
 	 * @param  mixed             $level   Log level
 	 * @param  string|Stringable $message Message to log
@@ -70,7 +85,9 @@ class Logger extends AbstractLogger {
 	public function log($level, string|Stringable $message, array $context = []): void {
 		$messageLevel = $this->map($level);
 		if ( $this->adapters ) {
-			$message = $this->interpolate($message, $context);
+			if ($this->interpolate) {
+				$message = $this->interpolate($message, $context);
+			}
 			foreach ($this->adapters as $adapter) {
 				$adapter_level = $this->map( $adapter->getLevel() );
 				if ( $adapter_level > $messageLevel ) continue;
@@ -83,7 +100,6 @@ class Logger extends AbstractLogger {
 	 * Interpolate placeholders
 	 * @param  string|Stringable $message Message with placeholders
 	 * @param  array             $context Array of context data
-	 * @return string
 	 */
 	protected function interpolate(string|Stringable $message, array $context = []): string {
 		$message = strval($message);
@@ -109,7 +125,6 @@ class Logger extends AbstractLogger {
 	/**
 	 * Map a LogLevel to a numeric value
 	 * @param  mixed $level Log level
-	 * @return int
 	 */
 	protected function map($level): int {
 		$ret = isset( static::$levels[$level] ) ? static::$levels[$level] : 0;

@@ -33,7 +33,7 @@ abstract class AbstractAdapter implements AdapterInterface {
 
 	/**
 	 * Get log level
-	 * @return mixed Log level
+	 * @return mixed
 	 */
 	public function getLevel() {
 		return $this->level;
